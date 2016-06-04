@@ -2,6 +2,8 @@ fac :: Integer -> Integer
 fac 0 = 1
 fac n = n * fac (n - 1)
 
+ones = 1 : ones
+
 quicksort :: (a -> a -> Bool) -> [a] -> [a]
 quicksort _ [] = []
 quicksort before (x : xs) = quicksort before [y | y <- xs, before y x]
@@ -12,6 +14,7 @@ evens [] = []
 evens (x:xs) = x : odds xs
 odds [] = []
 odds (x:xs) = evens xs
+
 
 merge :: (a -> a -> Bool) -> [a] -> [a] -> [a]
 merge _ x [] = x
@@ -25,11 +28,14 @@ mergesort _ [] = []
 mergesort _ [x] = [x]
 mergesort before l  = merge before (mergesort before (evens l)) (mergesort before (odds l))
 
-integrate s = zipWith (/) s [1,2 ..]
+square x = x * x
 
-funny = 1 : integrate funny
+isPrime :: [Integer] -> Integer -> Bool
+isPrime primesSoFar n 
+	| square (head primesSoFar) > n = True
+	| mod n (head primesSoFar) == 0 = False
+	| otherwise = isPrime (tail primesSoFar) n
 
-sums s = (head s) : map ((+) (head s)) (sums (tail s)) 
+primes = 2 : [n | n <- [3,5 ..], isPrime primes n] 
 
-powers x = 1 : map (* x) (powers x)
 
